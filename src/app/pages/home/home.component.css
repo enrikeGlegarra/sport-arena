@@ -1,0 +1,46 @@
+/* Carousel Animations */
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.animate-fade-in-delay {
+  animation: fadeIn 0.8s ease-in-out 0.2s;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth Transitions */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Card Hover Effects */
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+
+/* Button Styles */
+button.bg-blue-600 {
+  box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.4);
+}
+
+button.bg-blue-600:hover {
+  box-shadow: 0 6px 20px 0 rgba(37, 99, 235, 0.5);
+}
+
+/* Image Overlay Gradient */
+.bg-gradient-overlay {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.8));
+}
