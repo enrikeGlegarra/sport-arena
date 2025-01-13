@@ -1,11 +1,16 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-signup',
-  standalone: true,
-  imports: [FormsModule],
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+selector: 'app-signup',
+templateUrl: './signup.component.html',
+styleUrls: ['./signup.component.css'],
+standalone: true,
+imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule
+]
 })
 export class SignupComponent {}

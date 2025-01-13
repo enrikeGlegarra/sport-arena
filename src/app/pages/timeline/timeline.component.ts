@@ -3,11 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-timeline',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.css']
+selector: 'app-timeline',
+templateUrl: './timeline.component.html',
+styleUrls: ['./timeline.component.css'],
+standalone: true,
+imports: [
+    CommonModule,
+    FormsModule
+]
 })
 export class TimelineComponent {
   searchQuery: string = '';
