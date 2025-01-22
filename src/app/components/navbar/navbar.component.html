@@ -1,12 +1,69 @@
 <nav class="fixed top-0 w-full bg-gray-900 border-b border-gray-800 z-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
       <div class="flex items-center">
         <a routerLink="/" class="text-white text-xl font-bold">Sport Arena</a>
       </div>
       <div class="flex items-center space-x-4">
-        <a routerLink="/login" class="text-gray-300 hover:text-white px-3 py-2 rounded-md">Login</a>
-        <a routerLink="/signup" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Sign Up</a>
+        <!-- Show user menu when logged in -->
+        <ng-container *ngIf="isLoggedIn; else loginButtons">
+          <div class="relative">
+            <button
+              (click)="toggleMenu()"
+              class="flex items-center space-x-3 text-gray-300 hover:text-white px-3 py-2 rounded-md"
+            >
+              <img
+                [src]="'https://randomuser.me/api/portraits/men/79.jpg'"
+                alt="User avatar"
+                class="w-8 h-8 rounded-full object-cover"
+              />
+              <span>{{ userName }}</span>
+              <span class="material-icons text-sm">
+                {{ isMenuOpen ? 'expand_less' : 'expand_more' }}
+              </span>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div *ngIf="isMenuOpen"
+                 class="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1">
+              <a routerLink="/profile"
+                 class="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">
+                <span class="material-icons mr-2">person</span>
+                Profile
+              </a>
+              <a routerLink="/settings"
+                 class="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">
+                <span class="material-icons mr-2">settings</span>
+                Settings
+              </a>
+              <button
+                      class="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">
+                <span class="material-icons mr-2">language</span>
+                Language
+                <span class="ml-auto">Español</span>
+              </button>
+              <div class="border-t border-gray-700 my-1"></div>
+              <button (click)="logout()"
+                      class="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">
+                <span class="material-icons mr-2">logout</span>
+                Log out
+              </button>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- Login/Signup buttons when not logged in -->
+        <ng-template #loginButtons>
+          <a routerLink="/login"
+             class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200">
+            Login
+          </a>
+          <a routerLink="/signup"
+             class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200">
+            Sign Up
+          </a>
+        </ng-template>
       </div>
     </div>
   </div>

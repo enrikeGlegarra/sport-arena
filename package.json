@@ -20,6 +20,7 @@
     "@angular/router": "^18.2.0",
     "@nestjs/config": "^3.3.0",
     "@nestjs/typeorm": "^10.0.2",
+    "jwt-decode": "^4.0.0",
     "pg": "^8.13.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
