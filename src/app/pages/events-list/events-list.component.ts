@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {SportEventService} from "../../shared/services/sport-event.service";
 
 interface Event {
   id: string;
@@ -32,6 +33,10 @@ interface Event {
   styleUrl: './events-list.component.css'
 })
 export class EventsListComponent {
+
+  constructor(private sportEventService: SportEventService) {
+  }
+
   filters = {
     type: '',
     startDate: '',
@@ -44,7 +49,7 @@ export class EventsListComponent {
 
   sportTypes = ['Running', 'Cycling', 'Swimming', 'Triathlon', 'Trail Running'];
   provinces = ['Madrid', 'Barcelona', 'Valencia', 'Sevilla', 'Bilbao'];
-  countries= ['Spain', 'France', 'Italy', 'Germany', 'Portugal'];
+  countries = ['Spain', 'France', 'Italy', 'Germany', 'Portugal'];
   difficulties = ['Easy', 'Medium', 'Hard', 'Expert'];
 
   events: Event[] = [
@@ -190,6 +195,7 @@ export class EventsListComponent {
 
   filteredEvents: Event[] = this.events;
 
+
   applyFilters() {
     this.filteredEvents = this.events.filter(event => {
       const matchesType = !this.filters.type || event.type === this.filters.type;
@@ -216,6 +222,35 @@ export class EventsListComponent {
       country: ''
     };
     this.filteredEvents = this.events;
+  }
+
+  prubeEventos() {
+    this.sportEventService.getAllSportEvents().subscribe(
+      (data) => {
+        this.events = data.map(event => ({
+          id: event.id,
+          title: event.name,
+          organizer: {
+            name: 'Unknown Organizer', // Agrega un valor predeterminado o ajusta según tu DTO
+            avatar: 'https://i.pravatar.cc/150' // Imagen genérica si no está disponible
+          },
+          date: event.startDate,
+          type: event.sportModality,
+          image: 'https://picsum.photos/seed/' + event.id + '/800/600', // Generar imágenes genéricas
+          location: event.location,
+          province: event.province,
+          difficulty: 'Medium',
+          stats: [],
+          participants: 0,
+          comments: 0,
+          interested: 0
+        }));
+        this.filteredEvents = this.events;
+      },
+      (error) => {
+        console.error('Error fetching events:', error);
+      }
+    );
   }
 
 }
