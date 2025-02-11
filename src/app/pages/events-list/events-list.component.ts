@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
-import {SportEventService, SportEventSummaryDto} from "../../shared/services/sport-event.service";
+import {SportEventService} from "../../shared/services/sport-event.service";
 import {Router} from "@angular/router";
+import {SportEventSummaryDto} from "../../shared/dtos/SportEvent/SportEventSummary.dto";
 
 interface Event {
   id: string;

@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {Router} from "@angular/router";
 import {NgForOf} from "@angular/common";
 import flatpickr from "flatpickr";
+import {SportEventService} from "../../shared/services/sport-event.service";
+import {CreateSportEventDto} from "../../shared/dtos/SportEvent/CreateSportEvent.dto";
 
 @Component({
   selector: 'app-create-sport-event',
@@ -18,27 +20,29 @@ export class CreateSportEventComponent implements OnInit, AfterViewInit {
   eventForm: FormGroup;
   sportModalities: string[] = [];
   provinces: string[] = [];
+  coverImage?: File;
+  logoImage?: File;
+
   @ViewChild('startDateInput') startDateInput!: ElementRef;
   @ViewChild('endDateInput') endDateInput!: ElementRef;
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private sportEventService: SportEventService
   ) {
     this.eventForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
-      eventUrl: ['', [Validators.required, Validators.pattern('https?://.+')]],
+      eventUrl: ['', [Validators.required]],
       location: ['', Validators.required],
       province: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      sportModality: ['', Validators.required],
-      coverImage: [null],
-      logoImage: [null]
+      sportModality: ['', Validators.required]
     });
   }
-
+//      eventUrl: ['', [Validators.required, Validators.pattern('https?://.+')]],
   ngAfterViewInit(): void {
     flatpickr(this.startDateInput.nativeElement, {
       enableTime: false,
@@ -57,12 +61,14 @@ export class CreateSportEventComponent implements OnInit, AfterViewInit {
     });
   }
 
-  onFileChange(event: any, field: string) {
+  onFileChange(event: any, type: 'cover' | 'logo') {
     const file = event.target.files[0];
     if (file) {
-      this.eventForm.patchValue({
-        [field]: file
-      });
+      if (type === 'cover') {
+        this.coverImage = file;
+      } else {
+        this.logoImage = file;
+      }
     }
   }
 
@@ -96,12 +102,18 @@ export class CreateSportEventComponent implements OnInit, AfterViewInit {
     ];
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.eventForm.valid) {
-      console.log('Form submitted:', this.eventForm.value);
-      // Here you would typically send the data to your backend
-      // After successful creation, navigate to the events list
-      this.router.navigate(['/']);
+      const eventData: CreateSportEventDto = this.eventForm.value;
+
+      this.sportEventService.createSportEvent(eventData, this.coverImage, this.logoImage).subscribe({
+        next: (response:any) => {
+          console.log('Evento creado con éxito:', response);
+        },
+        error: (error) => {
+          console.error('Error al crear el evento:', error);
+        }
+      });
     } else {
       this.markFormGroupTouched(this.eventForm);
     }

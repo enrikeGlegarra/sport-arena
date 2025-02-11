@@ -120,11 +120,12 @@
             <div class="ml-4">
               <h2 class="font-bold text-gray-900 text-lg hover:text-primary transition-colors">{{ event.name }}</h2>
               <div class="flex items-center text-sm text-gray-600 mt-1">
-                <span class="font-medium">Organizador 2</span>
+                <span class="font-medium">{{ event.createdBy }}</span>
                 <span class="mx-2">•</span>
                 <span>{{ event.startDate | date:'longDate' }}</span>
                 <span class="mx-2">•</span>
-                <span class="px-2 py-0.5 bg-primary/10 text-primary rounded-full text-xs">{{ event.sportModality }}</span>
+                <span
+                  class="px-2 py-0.5 bg-primary/10 text-primary rounded-full text-xs">{{ event.sportModality }}</span>
               </div>
             </div>
           </div>

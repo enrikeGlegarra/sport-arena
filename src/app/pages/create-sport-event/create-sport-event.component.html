@@ -31,7 +31,7 @@
 
               <!-- Location -->
               <div class="relative">
-                <label for="location" class="text-sm font-semibold text-gray-700">Location</label>
+                <label for="location" class=" text-sm font-semibold text-gray-700">Location</label>
                 <input type="text" id="location" formControlName="location"
                        class="text-black mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
                 <p class="text-red-500">{{ getErrorMessage('location') }}</p>
@@ -39,9 +39,9 @@
 
               <!-- Province -->
               <div class="relative">
-                <label for="province" class=" text-black text-sm font-semibold text-gray-700">Province</label>
+                <label for="province" class="  text-sm font-semibold text-gray-700">Province</label>
                 <select id="province" formControlName="province"
-                        class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                        class="text-black mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
                   <option value="">Select a province</option>
                   <option *ngFor="let province of provinces" [value]="province">{{ province }}</option>
                 </select>
@@ -50,9 +50,9 @@
 
               <!-- Cover Image Upload -->
               <div class="relative">
-                <label for="coverImage" class=" text-black text-sm font-semibold text-gray-700">Cover Image</label>
-                <input type="file" id="coverImage" (change)="onFileChange($event, 'coverImage')"
-                       class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                <label for="coverImage" class=" text-black text-sm font-semibold ">Cover Image</label>
+                <input type="file" id="coverImage" (change)="onFileChange($event, 'cover')"
+                       class="text-black mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
                 <p class="text-red-500">{{ getErrorMessage('coverImage') }}</p>
               </div>
             </div>
@@ -98,7 +98,7 @@
               <!-- Logo Image Upload -->
               <div class="relative">
                 <label for="logoImage" class="text-sm font-semibold text-gray-700">Logo Image</label>
-                <input type="file" id="logoImage" (change)="onFileChange($event, 'logoImage')"
+                <input type="file" id="logoImage" (change)="onFileChange($event, 'logo')"
                        class="text-black mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
                 <p class="text-red-500">{{ getErrorMessage('logoImage') }}</p>
               </div>

@@ -20,11 +20,11 @@ export class AuthService {
     return this.http.post<{ access_token: string }>('http://localhost:4000/auth/login', credentials).subscribe(
       (response) => {
         const token = response.access_token;
-        const decodedToken: { username: string } = jwtDecode(token); // Decodificar el token
+        const decodedToken: { username: string } = jwtDecode(token);
 
         this.jwtToken = token;
         localStorage.setItem('token', this.jwtToken);
-        localStorage.setItem('userName', decodedToken.username); // Guardar el username decodificado
+        localStorage.setItem('userName', decodedToken.username);
         this.isAuthenticated.next(true);
         this.userName.next(decodedToken.username);
         this.router.navigate(['/time-line']);
