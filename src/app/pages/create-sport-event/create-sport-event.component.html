@@ -1,0 +1,120 @@
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-12 px-4 sm:px-6 lg:px-8 mt-16">
+  <div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-2">Create New Sport Event</h1>
+      <p class="text-lg text-gray-600">Fill in the details to create your amazing sport event</p>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div class="p-8">
+        <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="space-y-8">
+          <!-- Two Column Layout -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Left Column -->
+            <div class="space-y-6">
+              <!-- Event Name -->
+              <div class="relative">
+                <label for="name" class="text-sm font-semibold text-gray-700">Event Name</label>
+                <input type="text" id="name" formControlName="name"
+                       class=" text-black mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                <p class="text-red-500">{{ getErrorMessage('name') }}</p>
+              </div>
+
+              <!-- Description -->
+              <div class="relative">
+                <label for="description" class="text-sm font-semibold text-gray-700">Description</label>
+                <textarea id="description" formControlName="description" rows="4"
+                          class="text-black mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"></textarea>
+                <p class="text-red-500">{{ getErrorMessage('description') }}</p>
+              </div>
+
+              <!-- Location -->
+              <div class="relative">
+                <label for="location" class="text-sm font-semibold text-gray-700">Location</label>
+                <input type="text" id="location" formControlName="location"
+                       class="text-black mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                <p class="text-red-500">{{ getErrorMessage('location') }}</p>
+              </div>
+
+              <!-- Province -->
+              <div class="relative">
+                <label for="province" class=" text-black text-sm font-semibold text-gray-700">Province</label>
+                <select id="province" formControlName="province"
+                        class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                  <option value="">Select a province</option>
+                  <option *ngFor="let province of provinces" [value]="province">{{ province }}</option>
+                </select>
+                <p class="text-red-500">{{ getErrorMessage('province') }}</p>
+              </div>
+
+              <!-- Cover Image Upload -->
+              <div class="relative">
+                <label for="coverImage" class=" text-black text-sm font-semibold text-gray-700">Cover Image</label>
+                <input type="file" id="coverImage" (change)="onFileChange($event, 'coverImage')"
+                       class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                <p class="text-red-500">{{ getErrorMessage('coverImage') }}</p>
+              </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="space-y-6">
+              <!-- Event URL -->
+              <div class="relative">
+                <label for="eventUrl" class="text-sm font-semibold text-gray-700">Event URL</label>
+                <input type="url" id="eventUrl" formControlName="eventUrl"
+                       class="text-black mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                <p class="text-red-500">{{ getErrorMessage('eventUrl') }}</p>
+              </div>
+
+              <!-- Start Date -->
+              <div class="relative">
+                <label for="startDate" class="text-sm font-semibold text-gray-700">Start Date</label>
+                <input type="text" id="startDate" formControlName="startDate" #startDateInput
+                       class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-black
+           focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                <p class="text-red-500">{{getErrorMessage('startDate')}}</p>
+              </div>
+
+              <!-- End Date -->
+              <div class="relative">
+                <label for="endDate" class="text-sm font-semibold text-gray-700">End Date</label>
+                <input type="text" id="endDate" formControlName="endDate" #endDateInput
+                       class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-black
+           focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                <p class="text-red-500">{{getErrorMessage('endDate')}}</p>
+              </div>
+
+              <!-- Sport Modality -->
+              <div class="relative">
+                <label for="sportModality" class="text-sm font-semibold text-gray-700">Sport Modality</label>
+                <select id="sportModality" formControlName="sportModality"
+                        class=" text-black mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                  <option *ngFor="let modality of sportModalities" [value]="modality">{{ modality }}</option>
+                </select>
+                <p class="text-red-500">{{ getErrorMessage('sportModality') }}</p>
+              </div>
+
+              <!-- Logo Image Upload -->
+              <div class="relative">
+                <label for="logoImage" class="text-sm font-semibold text-gray-700">Logo Image</label>
+                <input type="file" id="logoImage" (change)="onFileChange($event, 'logoImage')"
+                       class="text-black mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                <p class="text-red-500">{{ getErrorMessage('logoImage') }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="flex justify-end pt-6">
+            <button type="submit"
+                    class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed">
+              <span class="material-icons mr-2">sports</span>
+              Create Event
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

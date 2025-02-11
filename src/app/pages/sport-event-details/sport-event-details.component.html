@@ -1,0 +1,105 @@
+<div class="container mx-auto px-4 py-8 mt-16">
+  <!-- Event Header -->
+  <div class="relative h-64 rounded-xl overflow-hidden mb-6">
+    <img [src]="event.image" alt="Event cover" class="w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 to-transparent"></div>
+    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+      <h1 class="text-3xl font-bold mb-2">{{event.title}}</h1>
+      <div class="flex items-center space-x-4">
+        <div class="flex items-center">
+          <span class="material-icons mr-1">calendar_today</span>
+          <span>{{event.date}}</span>
+        </div>
+        <div class="flex items-center">
+          <span class="material-icons mr-1">location_on</span>
+          <span>{{event.location}}</span>
+        </div>
+        <div class="flex items-center">
+          <span class="material-icons mr-1">business</span>
+          <span>{{event.organizer}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Event Description -->
+  <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+    <h2 class="text-xl font-bold mb-4">About the Event</h2>
+    <p class="text-gray-700">{{event.description}}</p>
+  </div>
+
+  <!-- Subevent Tabs -->
+  <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+    <!-- Tab Navigation -->
+    <div class="flex border-b">
+      <button *ngFor="let subevent of event.subevents; let i = index"
+              (click)="setActiveTab(i)"
+              [class.border-primary]="activeTab === i"
+              [class.border-transparent]="activeTab !== i"
+              class="px-6 py-3 text-sm font-medium border-b-2 hover:text-primary transition-colors"
+              [class.text-primary]="activeTab === i"
+              [class.text-gray-500]="activeTab !== i">
+        {{subevent.name}}
+      </button>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="p-6">
+      <div *ngFor="let subevent of event.subevents; let i = index"
+           [class.hidden]="activeTab !== i">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Left Column: Details -->
+          <div class="space-y-6">
+            <div>
+              <h3 class="text-xl font-bold mb-4">{{subevent.name}}</h3>
+              <p class="text-gray-700">{{subevent.description}}</p>
+            </div>
+
+            <!-- Key Information -->
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-gray-50 p-4 rounded-lg">
+                <div class="text-sm text-gray-500">Distance</div>
+                <div class="font-semibold">{{subevent.distance}}</div>
+              </div>
+              <div class="bg-gray-50 p-4 rounded-lg">
+                <div class="text-sm text-gray-500">Elevation</div>
+                <div class="font-semibold">{{subevent.elevation}}</div>
+              </div>
+              <div class="bg-gray-50 p-4 rounded-lg">
+                <div class="text-sm text-gray-500">Start Time</div>
+                <div class="font-semibold">{{subevent.startTime}}</div>
+              </div>
+              <div class="bg-gray-50 p-4 rounded-lg">
+                <div class="text-sm text-gray-500">Difficulty</div>
+                <div class="font-semibold">{{subevent.difficulty}}</div>
+              </div>
+            </div>
+
+            <!-- Registration Progress -->
+            <div>
+              <div class="flex justify-between text-sm mb-2">
+                <span class="text-gray-500">Registration Progress</span>
+                <span class="font-medium">{{subevent.currentParticipants}}/{{subevent.maxParticipants}}</span>
+              </div>
+              <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div class="h-full bg-primary transition-all duration-300"
+                     [style.width.%]="getProgressPercentage(subevent.currentParticipants, subevent.maxParticipants)">
+                </div>
+              </div>
+            </div>
+
+            <!-- Register Button -->
+            <button class="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary/90 transition-colors">
+              Register Now
+            </button>
+          </div>
+
+          <!-- Right Column: Route Map -->
+          <div class="bg-gray-100 rounded-xl overflow-hidden">
+            <img [src]="subevent.route" alt="Route map" class="w-full h-full object-cover">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

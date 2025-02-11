@@ -6,10 +6,12 @@ export interface SportEventSummaryDto {
   id: string;
   name: string;
   description: string;
-  startDate: string; // En el cliente se maneja como string
+  startDate: string;
   sportModality: string;
   location: string;
   province: string;
+  logoUrl: string;
+  coverUrl: string;
 }
 
 @Injectable({
@@ -17,14 +19,19 @@ export interface SportEventSummaryDto {
 })
 export class SportEventService {
 
-  private readonly apiUrl = 'https://your-backend-url/api/sport-events'; // Cambia por la URL de tu backend
+  private readonly apiUrl = 'http://localhost:4000/sport-events';
 
   constructor(private http: HttpClient) {
   }
 
 
   getAllSportEvents(): Observable<SportEventSummaryDto[]> {
-    return this.http.get<SportEventSummaryDto[]>(this.apiUrl);
+    return this.http.get<SportEventSummaryDto[]>(this.apiUrl );
   }
+
+  getSportEventById(id: string): Observable<SportEventSummaryDto> {
+    return this.http.get<SportEventSummaryDto>(`${this.apiUrl}/${id}`);
+  }
+
 }
 

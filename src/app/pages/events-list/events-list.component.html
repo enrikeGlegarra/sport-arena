@@ -1,24 +1,24 @@
 <div class="container mx-auto px-4 py-8 mt-16">
   <!-- Modern Filters Section -->
-  <div class="bg-white rounded-xl shadow-sm mb-8">
+  <div class="bg-white rounded-xl shadow-sm mb-8 transition-all hover:shadow-md">
     <!-- Filters Header -->
-    <div class="p-3 border-b flex items-center justify-between">
-      <div class="flex items-center space-x-2">
-        <span class="material-icons text-gray-700">filter_list</span>
-        <h2 class="text-lg font-semibold text-gray-900">Filters</h2>
+    <div class="p-4 border-b flex items-center justify-between bg-gray-50 rounded-t-xl">
+      <div class="flex items-center space-x-3">
+        <span class="material-icons text-primary">filter_list</span>
+        <h2 class="text-lg font-semibold text-gray-900">Filtros de búsqueda</h2>
       </div>
       <button
         (click)="resetFilters()"
-        class="text-sm text-gray-700 hover:text-primary flex items-center space-x-1"
+        class="text-sm text-gray-700 hover:text-primary flex items-center space-x-2 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors"
       >
         <span class="material-icons text-sm">refresh</span>
-        <span>Reset</span>
+        <span>Restablecer</span>
       </button>
     </div>
 
     <!-- Filters Content -->
-    <div class="p-3">
-      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-3">
+    <div class="p-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
         <!-- Sport Type Filter -->
         <div class="relative">
           <select
@@ -27,9 +27,10 @@
             class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-sm appearance-none cursor-pointer hover:border-primary focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-gray-900"
           >
             <option value="">All Sports</option>
-            <option *ngFor="let type of sportTypes" [value]="type">{{type}}</option>
+            <option *ngFor="let type of sportTypes" [value]="type">{{ type }}</option>
           </select>
-          <span class="material-icons absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none text-sm">
+          <span
+            class="material-icons absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none text-sm">
             sports
           </span>
         </div>
@@ -63,9 +64,10 @@
             class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-sm appearance-none cursor-pointer hover:border-primary focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-gray-900"
           >
             <option value="">All Provinces</option>
-            <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
+            <option *ngFor="let province of provinces" [value]="province">{{ province }}</option>
           </select>
-          <span class="material-icons absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none text-sm">
+          <span
+            class="material-icons absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none text-sm">
             location_on
           </span>
         </div>
@@ -79,7 +81,8 @@
             placeholder="Search location..."
             class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-sm hover:border-primary focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-gray-900"
           >
-          <span class="material-icons absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none text-sm">
+          <span
+            class="material-icons absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none text-sm">
             search
           </span>
         </div>
@@ -92,9 +95,10 @@
             class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-sm appearance-none cursor-pointer hover:border-primary focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-gray-900"
           >
             <option value="">All Difficulties</option>
-            <option *ngFor="let difficulty of difficulties" [value]="difficulty">{{difficulty}}</option>
+            <option *ngFor="let difficulty of difficulties" [value]="difficulty">{{ difficulty }}</option>
           </select>
-          <span class="material-icons absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none text-sm">
+          <span
+            class="material-icons absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none text-sm">
             signal_cellular_alt
           </span>
         </div>
@@ -104,20 +108,23 @@
 
   <!-- Events List -->
   <div class="space-y-6">
-    <div *ngFor="let event of filteredEvents" class="bg-white rounded-xl shadow-sm overflow-hidden">
+    <div *ngFor="let event of filteredEvents" (click)="navigateToEvent(event.id)"
+         class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-all cursor-pointer transform hover:-translate-y-1">
       <!-- Event Header -->
-      <div class="p-3">
+      <div class="p-4">
         <div class="flex items-center justify-between">
           <div class="flex items-center">
-            <img [src]="event.organizer.avatar" class="w-10 h-10 rounded-full" [alt]="event.organizer.name">
-            <div class="ml-3">
-              <h2 class="font-bold text-gray-900">{{event.title}}</h2>
-              <div class="flex items-center text-sm text-gray-600">
-                <span>{{event.organizer.name}}</span>
+            <img [src]="event.logoUrl"
+                 class="w-12 h-12 rounded-full ring-2 ring-primary/10"
+                 [alt]="'sasdfsadfsadfsadf'">
+            <div class="ml-4">
+              <h2 class="font-bold text-gray-900 text-lg hover:text-primary transition-colors">{{ event.name }}</h2>
+              <div class="flex items-center text-sm text-gray-600 mt-1">
+                <span class="font-medium">Organizador 2</span>
                 <span class="mx-2">•</span>
-                <span>{{event.date | date}}</span>
+                <span>{{ event.startDate | date:'longDate' }}</span>
                 <span class="mx-2">•</span>
-                <span>{{event.type}}</span>
+                <span class="px-2 py-0.5 bg-primary/10 text-primary rounded-full text-xs">{{ event.sportModality }}</span>
               </div>
             </div>
           </div>
@@ -125,38 +132,37 @@
       </div>
 
       <!-- Event Image -->
-      <div class="relative aspect-[21/9] bg-gray-100">
-        <img [src]="event.image" class="w-full h-full object-cover" [alt]="event.title">
+      <div class="relative aspect-[21/9] bg-gray-100 overflow-hidden">
+        <img [src]="event.coverUrl"
+             class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
+             [alt]="'sasdfsadfsadfsadf'">
         <!-- Event Quick Stats Overlay -->
-        <div class="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-3">
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent text-white p-4">
           <div class="grid grid-cols-4 gap-4">
-            <div *ngFor="let stat of event.stats" class="text-center">
-              <div class="text-base font-bold">{{stat.value}}</div>
-              <div class="text-xs opacity-75">{{stat.label}}</div>
-            </div>
+
           </div>
         </div>
       </div>
 
       <!-- Event Footer -->
-      <div class="px-3 py-2 border-t">
+      <div class="px-4 py-3 border-t bg-gray-50">
         <div class="flex items-center justify-between">
-          <div class="flex items-center space-x-4">
-            <button class="flex items-center space-x-1 text-gray-700 hover:text-primary">
+          <div class="flex items-center space-x-6">
+            <button class="flex items-center space-x-2 text-gray-700 hover:text-primary transition-colors">
               <span class="material-icons text-lg">group</span>
-              <span>{{event.participants}}</span>
+              <span class="font-medium">12</span>
             </button>
-            <button class="flex items-center space-x-1 text-gray-700 hover:text-primary">
+            <button class="flex items-center space-x-2 text-gray-700 hover:text-primary transition-colors">
               <span class="material-icons text-lg">comment</span>
-              <span>{{event.comments}}</span>
+              <span class="font-medium">34</span>
             </button>
-            <button class="flex items-center space-x-1 text-gray-700 hover:text-primary">
+            <button class="flex items-center space-x-2 text-gray-700 hover:text-primary transition-colors">
               <span class="material-icons text-lg">favorite_border</span>
-              <span>{{event.interested}}</span>
+              <span class="font-medium">22</span>
             </button>
           </div>
           <div class="flex items-center space-x-2">
-            <button class="text-gray-700 hover:text-primary">
+            <button class="text-gray-700 hover:text-primary p-2 hover:bg-gray-100 rounded-full transition-colors">
               <span class="material-icons text-lg">share</span>
             </button>
           </div>

@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
-import {SportEventService} from "../../shared/services/sport-event.service";
+import {SportEventService, SportEventSummaryDto} from "../../shared/services/sport-event.service";
+import {Router} from "@angular/router";
 
 interface Event {
   id: string;
@@ -32,9 +33,11 @@ interface Event {
   templateUrl: './events-list.component.html',
   styleUrl: './events-list.component.css'
 })
-export class EventsListComponent {
+export class EventsListComponent implements OnInit {
 
-  constructor(private sportEventService: SportEventService) {
+  constructor(private sportEventService: SportEventService, private router: Router) {
+    this.prubeEventos();
+
   }
 
   filters = {
@@ -52,163 +55,23 @@ export class EventsListComponent {
   countries = ['Spain', 'France', 'Italy', 'Germany', 'Portugal'];
   difficulties = ['Easy', 'Medium', 'Hard', 'Expert'];
 
-  events: Event[] = [
-    {
-      id: '1',
-      title: 'Madrid Marathon 2024',
-      organizer: {
-        name: 'Madrid Athletics',
-        avatar: 'https://i.pravatar.cc/150?u=madrid'
-      },
-      date: '2024-04-15',
-      type: 'Running',
-      image: 'https://picsum.photos/seed/madrid/800/600',
-      location: 'Madrid City Center',
-      province: 'Madrid',
-      difficulty: 'Hard',
-      stats: [
-        {label: 'Distance', value: '42.2km'},
-        {label: 'Elevation', value: '250m'},
-        {label: 'Time Limit', value: '6h'},
-        {label: 'Aid Stations', value: '8'}
-      ],
-      participants: 1500,
-      comments: 45,
-      interested: 2300
-    },
-    {
-      id: '2',
-      title: 'Costa Brava Cycling Challenge',
-      organizer: {
-        name: 'Cycling Club BCN',
-        avatar: 'https://i.pravatar.cc/150?u=bcn'
-      },
-      date: '2024-05-20',
-      type: 'Cycling',
-      image: 'https://picsum.photos/seed/costa/800/600',
-      location: 'Costa Brava',
-      province: 'Barcelona',
-      difficulty: 'Expert',
-      stats: [
-        {label: 'Distance', value: '160km'},
-        {label: 'Elevation', value: '2500m'},
-        {label: 'Time Limit', value: '10h'},
-        {label: 'Aid Stations', value: '5'}
-      ],
-      participants: 800,
-      comments: 32,
-      interested: 1200
-    },
-    {
-      id: '1',
-      title: 'Madrid Marathon 2024',
-      organizer: {
-        name: 'Madrid Athletics',
-        avatar: 'https://i.pravatar.cc/150?u=madrid'
-      },
-      date: '2024-04-15',
-      type: 'Running',
-      image: 'https://picsum.photos/seed/madrid/800/600',
-      location: 'Madrid City Center',
-      province: 'Madrid',
-      difficulty: 'Hard',
-      stats: [
-        {label: 'Distance', value: '42.2km'},
-        {label: 'Elevation', value: '250m'},
-        {label: 'Time Limit', value: '6h'},
-        {label: 'Aid Stations', value: '8'}
-      ],
-      participants: 1500,
-      comments: 45,
-      interested: 2300
-    },
-    {
-      id: '2',
-      title: 'Costa Brava Cycling Challenge',
-      organizer: {
-        name: 'Cycling Club BCN',
-        avatar: 'https://i.pravatar.cc/150?u=bcn'
-      },
-      date: '2024-05-20',
-      type: 'Cycling',
-      image: 'https://picsum.photos/seed/costa/800/600',
-      location: 'Costa Brava',
-      province: 'Barcelona',
-      difficulty: 'Expert',
-      stats: [
-        {label: 'Distance', value: '160km'},
-        {label: 'Elevation', value: '2500m'},
-        {label: 'Time Limit', value: '10h'},
-        {label: 'Aid Stations', value: '5'}
-      ],
-      participants: 800,
-      comments: 32,
-      interested: 1200
-    },
-    {
-      id: '1',
-      title: 'Madrid Marathon 2024',
-      organizer: {
-        name: 'Madrid Athletics',
-        avatar: 'https://i.pravatar.cc/150?u=madrid'
-      },
-      date: '2024-04-15',
-      type: 'Running',
-      image: 'https://picsum.photos/seed/madrid/800/600',
-      location: 'Madrid City Center',
-      province: 'Madrid',
-      difficulty: 'Hard',
-      stats: [
-        {label: 'Distance', value: '42.2km'},
-        {label: 'Elevation', value: '250m'},
-        {label: 'Time Limit', value: '6h'},
-        {label: 'Aid Stations', value: '8'}
-      ],
-      participants: 1500,
-      comments: 45,
-      interested: 2300
-    },
-    {
-      id: '2',
-      title: 'Costa Brava Cycling Challenge',
-      organizer: {
-        name: 'Cycling Club BCN',
-        avatar: 'https://i.pravatar.cc/150?u=bcn'
-      },
-      date: '2024-05-20',
-      type: 'Cycling',
-      image: 'https://picsum.photos/seed/costa/800/600',
-      location: 'Costa Brava',
-      province: 'Barcelona',
-      difficulty: 'Expert',
-      stats: [
-        {label: 'Distance', value: '160km'},
-        {label: 'Elevation', value: '2500m'},
-        {label: 'Time Limit', value: '10h'},
-        {label: 'Aid Stations', value: '5'}
-      ],
-      participants: 800,
-      comments: 32,
-      interested: 1200
-    }
-  ];
 
-  filteredEvents: Event[] = this.events;
+  filteredEvents: SportEventSummaryDto[] = [];
 
 
   applyFilters() {
-    this.filteredEvents = this.events.filter(event => {
-      const matchesType = !this.filters.type || event.type === this.filters.type;
-      const matchesProvince = !this.filters.province || event.province === this.filters.province;
-      const matchesDifficulty = !this.filters.difficulty || event.difficulty === this.filters.difficulty;
-      const matchesDate = !this.filters.startDate || new Date(event.date) >= new Date(this.filters.startDate);
-      const matchesEndDate = !this.filters.endDate || new Date(event.date) <= new Date(this.filters.endDate);
-      const matchesLocation = !this.filters.location ||
-        event.location.toLowerCase().includes(this.filters.location.toLowerCase());
+    /* this.filteredEvents = this.events.filter(event => {
+       const matchesType = !this.filters.type || event.type === this.filters.type;
+       const matchesProvince = !this.filters.province || event.province === this.filters.province;
+       const matchesDifficulty = !this.filters.difficulty || event.difficulty === this.filters.difficulty;
+       const matchesDate = !this.filters.startDate || new Date(event.date) >= new Date(this.filters.startDate);
+       const matchesEndDate = !this.filters.endDate || new Date(event.date) <= new Date(this.filters.endDate);
+       const matchesLocation = !this.filters.location ||
+         event.location.toLowerCase().includes(this.filters.location.toLowerCase());
 
-      return matchesType && matchesProvince && matchesDifficulty &&
-        matchesDate && matchesEndDate && matchesLocation;
-    });
+       return matchesType && matchesProvince && matchesDifficulty &&
+         matchesDate && matchesEndDate && matchesLocation;
+     });*/
   }
 
   resetFilters() {
@@ -221,36 +84,20 @@ export class EventsListComponent {
       difficulty: '',
       country: ''
     };
-    this.filteredEvents = this.events;
+    /*  this.filteredEvents = this.events;*/
   }
 
   prubeEventos() {
-    this.sportEventService.getAllSportEvents().subscribe(
-      (data) => {
-        this.events = data.map(event => ({
-          id: event.id,
-          title: event.name,
-          organizer: {
-            name: 'Unknown Organizer', // Agrega un valor predeterminado o ajusta según tu DTO
-            avatar: 'https://i.pravatar.cc/150' // Imagen genérica si no está disponible
-          },
-          date: event.startDate,
-          type: event.sportModality,
-          image: 'https://picsum.photos/seed/' + event.id + '/800/600', // Generar imágenes genéricas
-          location: event.location,
-          province: event.province,
-          difficulty: 'Medium',
-          stats: [],
-          participants: 0,
-          comments: 0,
-          interested: 0
-        }));
-        this.filteredEvents = this.events;
-      },
-      (error) => {
-        console.error('Error fetching events:', error);
-      }
-    );
+    this.sportEventService.getAllSportEvents().pipe().subscribe((events:any) => {
+      this.filteredEvents = events.data;
+    });
+  }
+
+  navigateToEvent(eventId: string) {
+    this.router.navigate(['/event', eventId]);
+  }
+
+  ngOnInit(): void {
   }
 
 }
